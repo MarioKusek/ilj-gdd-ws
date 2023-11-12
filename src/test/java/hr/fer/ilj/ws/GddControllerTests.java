@@ -83,6 +83,26 @@ class GddControllerTests {
       .andExpect(status().isNotFound());
   }
 
+  @Test
+  void sensorIdIsNull() throws Exception {
+    GddRequest request = new GddRequest(
+        null,
+        LocalDate.of(2023, 5, 1),
+        LocalDate.of(2023, 10, 1),
+        LocalDate.of(2023, 11, 1),
+        10,
+        30,
+        false);
+
+    mvc.perform(post("/search")
+        .content(asJsonString(request))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
+
+
+
 
 
   public String asJsonString(final Object obj) {
