@@ -48,6 +48,9 @@ public class GddController {
     if(request.endDate().isBefore(request.plantingDate()) ||
         request.startDate().isBefore(request.plantingDate()))
       throw new GddRequestValidationException("Plant date should be first.");
+
+    if(request.minTemp() > request.maxTemp())
+      throw new GddRequestValidationException("Min. temperature should be lower then max. temperature.");
   }
 
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
