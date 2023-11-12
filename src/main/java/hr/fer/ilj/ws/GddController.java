@@ -2,6 +2,7 @@ package hr.fer.ilj.ws;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +20,12 @@ public class GddController {
   }
 
   @PostMapping("/search")
-  List<DDValue> search(@RequestBody GddRequest request) {
+  ResponseEntity<List<DDValue>> search(@RequestBody GddRequest request) {
+    List<DDValue> result = service.search(request);
 
-    return service.search(request);
+    if(result.isEmpty())
+      return ResponseEntity.notFound().build();
+
+    return ResponseEntity.ok(result);
   }
 }

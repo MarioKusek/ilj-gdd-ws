@@ -63,6 +63,28 @@ class GddControllerTests {
               """));
   }
 
+  @Test
+  void noSensor() throws Exception {
+    GddRequest request = new GddRequest(
+        "fakeSensorId",
+        LocalDate.of(2023, 5, 1),
+        LocalDate.of(2023, 10, 1),
+        LocalDate.of(2023, 11, 1),
+        10,
+        30,
+        false);
+
+    given(service.search(request)).willReturn(List.of());
+
+    mvc.perform(post("/search")
+        .content(asJsonString(request))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound());
+  }
+
+
+
   public String asJsonString(final Object obj) {
     try {
       return mapper.writeValueAsString(obj);
