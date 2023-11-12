@@ -156,7 +156,24 @@ class GddControllerTests {
       .andExpect(status().isBadRequest());
   }
 
-
+  @Test
+  void wrongDateFormat() throws Exception {
+    mvc.perform(post("/search")
+        .content("""
+                {
+                  "sensorId":"fakeSensorId",
+                  "plantingDate":"2023.05.01",
+                  "startDate":"2023-10-01",
+                  "endDate":"2023-11-01",
+                  "minTemp":10.0,
+                  "maxTemp":30.0,
+                  "cumulative":false
+                }
+                """)
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
 
 
 
