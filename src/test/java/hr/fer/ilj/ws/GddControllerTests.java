@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hr.fer.ilj.gdd.DDValue;
 import hr.fer.ilj.gdd.GddRequest;
 import hr.fer.ilj.gdd.GddService;
 
@@ -43,14 +44,23 @@ class GddControllerTests {
         30,
         false);
 
-    given(service.search(request)).willReturn(List.of());
+    given(service.search(request)).willReturn(List.of(
+        new DDValue(LocalDate.of(2023, 10, 1), 0.1)
+        ));
 
     mvc.perform(post("/search")
         .content(asJsonString(request))
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().string("[]"));
+      .andExpect(content().json("""
+              [
+                {
+                  "date":"2023-10-01",
+                  "value":0.1
+                }
+              ]
+              """));
   }
 
   public String asJsonString(final Object obj) {

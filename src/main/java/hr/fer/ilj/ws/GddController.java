@@ -8,13 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hr.fer.ilj.gdd.DDValue;
 import hr.fer.ilj.gdd.GddRequest;
+import hr.fer.ilj.gdd.GddService;
 
 @RestController
 public class GddController {
+  private final GddService service;
+
+  public GddController(GddService service) {
+    this.service = service;
+  }
 
   @PostMapping("/search")
   List<DDValue> search(@RequestBody GddRequest request) {
-    // TODO implement
-    return List.of();
+
+    return service.search(request);
   }
 }
