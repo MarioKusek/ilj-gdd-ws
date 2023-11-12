@@ -35,7 +35,12 @@ public class GddController {
 
   private void validate(GddRequest request) {
     if(request.sensorId() == null)
-      throw new GddRequestValidationException("Sensor id must not bee null.");
+      throw new GddRequestValidationException("Sensor id must not be null.");
+
+    if(request.plantingDate() == null ||
+        request.startDate() == null ||
+        request.endDate() == null)
+      throw new GddRequestValidationException("Dates must not be null.");
 
   }
 

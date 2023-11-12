@@ -101,6 +101,61 @@ class GddControllerTests {
       .andExpect(status().isBadRequest());
   }
 
+  @Test
+  void plantingDateIsNull() throws Exception {
+    GddRequest request = new GddRequest(
+        "fakeSensorId",
+        null,
+        LocalDate.of(2023, 10, 1),
+        LocalDate.of(2023, 11, 1),
+        10,
+        30,
+        false);
+
+    mvc.perform(post("/search")
+        .content(asJsonString(request))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
+
+
+  @Test
+  void startDateIsNull() throws Exception {
+    GddRequest request = new GddRequest(
+        "fakeSensorId",
+        LocalDate.of(2023, 10, 1),
+        null,
+        LocalDate.of(2023, 11, 1),
+        10,
+        30,
+        false);
+
+    mvc.perform(post("/search")
+        .content(asJsonString(request))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void endDateIsNull() throws Exception {
+    GddRequest request = new GddRequest(
+        "fakeSensorId",
+        LocalDate.of(2023, 10, 1),
+        LocalDate.of(2023, 11, 1),
+        null,
+        10,
+        30,
+        false);
+
+    mvc.perform(post("/search")
+        .content(asJsonString(request))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
+
 
 
 
