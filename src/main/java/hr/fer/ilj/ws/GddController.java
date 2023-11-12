@@ -45,7 +45,9 @@ public class GddController {
     if(request.endDate().isBefore(request.startDate()))
       throw new GddRequestValidationException("End date is before start date.");
 
-
+    if(request.endDate().isBefore(request.plantingDate()) ||
+        request.startDate().isBefore(request.plantingDate()))
+      throw new GddRequestValidationException("Plant date should be first.");
   }
 
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
