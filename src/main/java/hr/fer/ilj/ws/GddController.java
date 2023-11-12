@@ -42,6 +42,10 @@ public class GddController {
         request.endDate() == null)
       throw new GddRequestValidationException("Dates must not be null.");
 
+    if(request.endDate().isBefore(request.startDate()))
+      throw new GddRequestValidationException("End date is before start date.");
+
+
   }
 
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
